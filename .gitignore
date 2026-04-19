@@ -1,0 +1,17 @@
+.DS_Store
+.idea
+.vscode
+*.iml
+
+backend/target/
+backend/.mvn/
+
+node_modules/
+dist/
+build/
+*.log
+*.tsbuildinfo
+
+config/.env
+.env
+.env.local

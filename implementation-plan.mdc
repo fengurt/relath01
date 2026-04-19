@@ -1,0 +1,29 @@
+# Implementation plan — relath01
+
+## Step 1 — Repository & schema foundation
+
+Done
+
+Created monorepo layout under `cursor_project_rules`, `neo4j/cypher`, `backend`, `web`, `h5`, `mcp-server`, `docker`, and `docker-compose.yml` for single-host orchestration.
+
+Neo4j constraints/indexes and node/edge property conventions are encoded in `neo4j/cypher`; Spring Boot API and frontends are scaffolded for iterative feature work.
+
+## Step 2 — Neo4j rule engine & core API
+
+Pending
+
+## Step 3 — RBAC, MySQL metadata, audit
+
+Pending
+
+## Step 4 — Web/H5 visualization & reports
+
+Pending
+
+## Step 5 — Multimodal ingest & Skills
+
+Pending
+
+## Step 6 — Hardening & ops
+
+Pending
