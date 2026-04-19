@@ -36,10 +36,6 @@ Apply schema (with `cypher-shell` installed, or `docker compose exec neo4j cyphe
 cd mcp-server && npm install && RELATH_API_BASE=http://127.0.0.1:8080 node src/index.js
 ```
 
-## GitHub
+## Repository
 
-```bash
-gh repo create relath01 --public --source=. --remote=origin --push
-```
-
-Use a unique name if `relath01` already exists on the account.
+https://github.com/fengurt/relath01
