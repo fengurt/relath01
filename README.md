@@ -16,7 +16,25 @@ Monorepo scaffold aligned with `cursor_project_rules` and `implementation-plan.m
 - **JDK 17 or 21** (macOS: `brew install openjdk@17`, then add `$(brew --prefix openjdk@17)/bin` to `PATH`, or rely on `/usr/libexec/java_home`)
 - **No global Maven required** — the repo includes **`backend/mvnw`** (Maven Wrapper)
 - Node.js 20+ for frontends and MCP
-- Docker optional for Neo4j/MySQL/Redis and production-like runs
+- **Docker Desktop** for Neo4j/MySQL/Redis (`brew install --cask docker`, open the app once)
+
+Run **`./scripts/relath-check-env.sh`** to verify Java and Docker before starting.
+
+### If you see `command not found: docker`
+
+Install Docker Desktop (`brew install --cask docker`), launch it from Applications, wait until it finishes starting, then try `docker compose` again.
+
+### If you see `Unable to locate a Java Runtime`
+
+Install JDK and put it **before** `/usr/bin` on `PATH` (macOS `/usr/bin/java` is often a useless stub):
+
+```bash
+brew install openjdk@17
+echo 'export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+Intel Macs: use `/usr/local/opt/openjdk@17/bin` instead of `/opt/homebrew/opt/...`.
 
 ## Scripts
 
@@ -31,6 +49,8 @@ Paths like `./scripts/...` only work from the **repository root**, not from `bac
 | `./scripts/relath-clean-restart.sh` | `./relath-clean-restart.sh` | `docker compose down`, kill **8080 / 5173 / 5174**, `mvn clean` |
 | `RELATH_PRUNE_VOLUMES=1 ./scripts/relath-clean-restart.sh` | `RELATH_PRUNE_VOLUMES=1 ./relath-clean-restart.sh` | same + `docker compose down -v` |
 | `./scripts/relath-run-backend.sh` | `./relath-run-backend.sh` | API on **:8080** |
+| `./scripts/relath-compose-up.sh neo4j redis mysql` | — | `docker compose up -d` (checks Docker first) |
+| `./scripts/relath-check-env.sh` | — | Verify JDK + Docker + Node |
 
 ## Local preview in the browser
 
@@ -39,7 +59,7 @@ Use **three terminals** from the repo root (or adjust paths). JDK + Node must be
 **1 — Data services + API (port 8080)**
 
 ```bash
-docker compose up -d neo4j redis mysql
+./scripts/relath-compose-up.sh neo4j redis mysql   # fails clearly if Docker is missing
 ./scripts/relath-run-backend.sh
 ```
 
@@ -65,7 +85,7 @@ Open [http://127.0.0.1:5174](http://127.0.0.1:5174).
 
 ```bash
 cp config/env.example config/.env   # optional; compose defaults match README
-docker compose up -d neo4j redis mysql
+./scripts/relath-compose-up.sh neo4j redis mysql
 ./scripts/relath-run-backend.sh
 ```
 
