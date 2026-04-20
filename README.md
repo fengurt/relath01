@@ -32,6 +32,35 @@ Paths like `./scripts/...` only work from the **repository root**, not from `bac
 | `RELATH_PRUNE_VOLUMES=1 ./scripts/relath-clean-restart.sh` | `RELATH_PRUNE_VOLUMES=1 ./relath-clean-restart.sh` | same + `docker compose down -v` |
 | `./scripts/relath-run-backend.sh` | `./relath-run-backend.sh` | API on **:8080** |
 
+## Local preview in the browser
+
+Use **three terminals** from the repo root (or adjust paths). JDK + Node must be on your `PATH`.
+
+**1 — Data services + API (port 8080)**
+
+```bash
+docker compose up -d neo4j redis mysql
+./scripts/relath-run-backend.sh
+```
+
+Check the API directly: [http://127.0.0.1:8080/api/v1/public/health](http://127.0.0.1:8080/api/v1/public/health) and [http://127.0.0.1:8080/api/v1/public/graph/summary](http://127.0.0.1:8080/api/v1/public/graph/summary).
+
+**2 — Web admin UI (Vite dev server, port 5173)**
+
+```bash
+cd web && npm install && npm run dev
+```
+
+Open [http://127.0.0.1:5173](http://127.0.0.1:5173) — `/api` is proxied to the backend.
+
+**3 — H5 mobile shell (optional, port 5174)**
+
+```bash
+cd h5 && npm install && npm run dev
+```
+
+Open [http://127.0.0.1:5174](http://127.0.0.1:5174).
+
 ## Quick start (API + Neo4j)
 
 ```bash
