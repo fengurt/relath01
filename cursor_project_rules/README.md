@@ -14,7 +14,9 @@ This folder is the authoritative context for the **可计算商业关系图谱�
 | Path | Role |
 |------|------|
 | `neo4j/cypher/` | Constraints, indexes, optional seeds |
-| `backend/` | Spring Boot 3 API, Neo4j access, RBAC hooks |
+| `backend/` | Spring Boot 3 API, Neo4j access, RBAC hooks; use **`./mvnw`** (no system Maven required) |
+| `scripts/relath-test.sh` | Local `clean test` |
+| `scripts/relath-clean-restart.sh` | Stop compose + kill dev ports + `mvn clean` |
 | `mcp-server/` | MCP stdio server (Node) calling backend secured tools |
 | `web/` | Admin UI: React 18 + Ant Design + G6 |
 | `h5/` | Mobile: React 18 + react-vant (Vant-style) + ECharts |

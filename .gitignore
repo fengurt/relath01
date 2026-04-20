@@ -4,7 +4,6 @@
 *.iml
 
 backend/target/
-backend/.mvn/
 
 node_modules/
 dist/

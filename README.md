@@ -13,15 +13,26 @@ Monorepo scaffold aligned with `cursor_project_rules` and `implementation-plan.m
 
 ## Local prerequisites
 
-- JDK 17+ and Maven 3.9+ **or** Docker with BuildKit for `backend/Dockerfile`
+- **JDK 17 or 21** (macOS: `brew install openjdk@17`, then add `$(brew --prefix openjdk@17)/bin` to `PATH`, or rely on `/usr/libexec/java_home`)
+- **No global Maven required** — the repo includes **`backend/mvnw`** (Maven Wrapper)
 - Node.js 20+ for frontends and MCP
+- Docker optional for Neo4j/MySQL/Redis and production-like runs
+
+## Scripts (from repo root)
+
+| Script | Purpose |
+|--------|---------|
+| `./scripts/relath-test.sh` | `mvn clean test` via wrapper (use this instead of `mvn`) |
+| `./scripts/relath-clean-restart.sh` | `docker compose down`, kill ports **8080 / 5173 / 5174**, `mvn clean` — fresh local state |
+| `./scripts/relath-clean-restart.sh` with `RELATH_PRUNE_VOLUMES=1` | same as above **and** `docker compose down -v` (wipes Neo4j/MySQL data volumes) |
+| `./scripts/relath-run-backend.sh` | run API on **:8080** (`spring-boot:run`) |
 
 ## Quick start (API + Neo4j)
 
 ```bash
 cp config/env.example config/.env   # optional; compose defaults match README
 docker compose up -d neo4j redis mysql
-cd backend && mvn -q spring-boot:run
+./scripts/relath-run-backend.sh
 ```
 
 Apply schema (with `cypher-shell` installed, or `docker compose exec neo4j cypher-shell ...`):
