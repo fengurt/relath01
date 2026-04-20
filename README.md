@@ -20,7 +20,10 @@ Monorepo scaffold aligned with `cursor_project_rules` and `implementation-plan.m
 
 ## Scripts
 
-Paths are under the **repository root** (`relath01/`), not inside `backend/`. From **`backend/`**, use the wrappers in this table instead:
+**Do not use a fake path.** The repo root is wherever you cloned it (for example `~/cpro01/ksamint999/relath01` on your machine). In the terminal, `cd` to that folder first, or stay in `backend/` and use the right column below.
+
+Paths like `./scripts/...` only work from the **repository root**, not from `backend/`. From **`backend/`**, use the wrappers in the second column:
+
 
 | From repo root | From `backend/` | Purpose |
 |------------------|-----------------|---------|
