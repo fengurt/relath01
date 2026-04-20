@@ -5,10 +5,10 @@ Monorepo scaffold aligned with `cursor_project_rules` and `implementation-plan.m
 ## Layout
 
 - `neo4j/cypher` — constraints, indexes, relationship rules (see `00_graph_model_reference.cypher`)
-- `backend` — Spring Boot 3 API (`/api/v1/public/*` unauthenticated for bootstrap health/graph ping)
+- `backend` — Spring Boot 3 API (`/api/v1/public/*` bootstrap: health, graph ping, **graph summary / order snapshot / introducer paths**)
 - `web` — React 18 + Ant Design + Vite (G6 wired next)
-- `h5` — React 18 + Vant + Vite (ECharts graph next)
-- `mcp-server` — MCP stdio server with `relath_health` tool (calls backend HTTP)
+- `h5` — React 18 + react-vant + Vite (ECharts graph next)
+- `mcp-server` — MCP stdio: `relath_health`, `relath_graph_summary` (HTTP to backend)
 - `docker-compose.yml` — Neo4j, MySQL, Redis, backend
 
 ## Local prerequisites
@@ -29,6 +29,14 @@ Apply schema (with `cypher-shell` installed, or `docker compose exec neo4j cyphe
 ```bash
 ./scripts/apply-neo4j-schema.sh
 ```
+
+## Public graph API (dev; lock behind RBAC later)
+
+| Method | Path |
+|--------|------|
+| GET | `/api/v1/public/graph/summary` |
+| GET | `/api/v1/public/graph/orders/{orderId}` |
+| GET | `/api/v1/public/graph/consumers/{consumerId}/introducer-paths?maxDepth=&limit=` |
 
 ## MCP (stdio)
 

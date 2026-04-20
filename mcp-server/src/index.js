@@ -23,16 +23,61 @@ mcpServer.registerTool(
     const resolvedBase =
       baseUrl ?? process.env.RELATH_API_BASE ?? "http://127.0.0.1:8080";
     const url = new URL("/api/v1/public/health", resolvedBase).toString();
-    const response = await fetch(url);
-    const bodyText = await response.text();
-    return {
-      content: [
-        {
-          type: "text",
-          text: `HTTP ${response.status}\n${bodyText}`,
-        },
-      ],
-    };
+    try {
+      const response = await fetch(url);
+      const bodyText = await response.text();
+      return {
+        content: [
+          {
+            type: "text",
+            text: `HTTP ${response.status}\n${bodyText}`,
+          },
+        ],
+      };
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      return {
+        content: [{ type: "text", text: `fetch failed: ${url}\n${message}` }],
+        isError: true,
+      };
+    }
+  }
+);
+
+mcpServer.registerTool(
+  "relath_graph_summary",
+  {
+    description: "GET /api/v1/public/graph/summary — core node counts",
+    inputSchema: {
+      baseUrl: z
+        .string()
+        .url()
+        .optional()
+        .describe("API base URL (default RELATH_API_BASE or http://127.0.0.1:8080)"),
+    },
+  },
+  async ({ baseUrl }) => {
+    const resolvedBase =
+      baseUrl ?? process.env.RELATH_API_BASE ?? "http://127.0.0.1:8080";
+    const url = new URL("/api/v1/public/graph/summary", resolvedBase).toString();
+    try {
+      const response = await fetch(url);
+      const bodyText = await response.text();
+      return {
+        content: [
+          {
+            type: "text",
+            text: `HTTP ${response.status}\n${bodyText}`,
+          },
+        ],
+      };
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      return {
+        content: [{ type: "text", text: `fetch failed: ${url}\n${message}` }],
+        isError: true,
+      };
+    }
   }
 );
 

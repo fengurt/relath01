@@ -3,11 +3,18 @@ services:
     image: neo4j:5.26-community
     environment:
       NEO4J_AUTH: neo4j/${NEO4J_PASSWORD:-relath_dev_password}
+      NEO4J_PASSWORD: ${NEO4J_PASSWORD:-relath_dev_password}
     ports:
       - "7474:7474"
       - "7687:7687"
     volumes:
       - neo4j_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "cypher-shell -u neo4j -p \"$$NEO4J_PASSWORD\" 'RETURN 1'"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 15s
 
   mysql:
     image: mysql:8.4
@@ -35,8 +42,10 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    restart: on-failure:3
     depends_on:
-      - neo4j
+      neo4j:
+        condition: service_healthy
     environment:
       SPRING_NEO4J_URI: bolt://neo4j:7687
       SPRING_NEO4J_AUTHENTICATION_USERNAME: neo4j

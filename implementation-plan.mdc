@@ -10,7 +10,9 @@ Neo4j constraints/indexes and node/edge property conventions are encoded in `neo
 
 ## Step 2 — Neo4j rule engine & core API
 
-Pending
+Done
+
+Parameterized Cypher catalog (`CypherQueries`), `GraphAnalyticsService`, public graph REST (`/api/v1/public/graph/**`), `ApiExceptionHandler`, slice tests, MCP `relath_graph_summary` with fetch error handling; Compose waits for Neo4j before starting backend.
 
 ## Step 3 — RBAC, MySQL metadata, audit
 
