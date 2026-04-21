@@ -1,4 +1,5 @@
 import type {
+  BatchIngestResponse,
   GraphPingResponse,
   GraphSummaryResponse,
   HealthResponse,
@@ -52,4 +53,21 @@ export async function fetchIntroducerPaths(
   const url = `/api/v1/public/graph/consumers/${encoded}/introducer-paths${query ? `?${query}` : ""}`;
   const response = await fetch(url);
   return parseJson<IntroPathsResponse>(response);
+}
+
+export async function ingestGraphBatch(payload: object): Promise<BatchIngestResponse> {
+  const response = await fetch("/api/v1/public/graph/batch-ingest", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  return parseJson<BatchIngestResponse>(response);
+}
+
+export async function fetchSampleBatchJson(fileName: string): Promise<object> {
+  const response = await fetch(`/samples/${fileName}`);
+  if (!response.ok) {
+    throw new Error(`无法加载 ${fileName}: HTTP ${response.status}`);
+  }
+  return parseJson<object>(response);
 }

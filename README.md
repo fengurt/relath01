@@ -103,6 +103,9 @@ Apply schema (with `cypher-shell` installed, or `docker compose exec neo4j cyphe
 | GET | `/api/v1/public/graph/summary` |
 | GET | `/api/v1/public/graph/orders/{orderId}` |
 | GET | `/api/v1/public/graph/consumers/{consumerId}/introducer-paths?maxDepth=&limit=` |
+| POST | `/api/v1/public/graph/batch-ingest` — body = `data/samples/*.json` 同构；**生产须禁或鉴权** |
+
+管理端「概览」可从 `web/public/samples/` 拉取 JSON 并调用上述接口写入 Neo4j（与 `data/samples` 一致）。
 
 ## MCP (stdio)
 

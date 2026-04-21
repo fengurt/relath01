@@ -4,24 +4,30 @@ import {
   Card,
   Col,
   Descriptions,
+  Divider,
   Row,
   Space,
   Spin,
   Statistic,
   Tag,
   Typography,
+  message,
 } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import {
   fetchGraphPing,
   fetchGraphSummary,
   fetchHealth,
+  fetchSampleBatchJson,
+  ingestGraphBatch,
 } from "../api/publicApi";
 import type {
+  BatchIngestResponse,
   GraphPingResponse,
   GraphSummaryResponse,
   HealthResponse,
 } from "../api/types";
+import { SAMPLE_FILES } from "../config/sampleRefs";
 
 export function DashboardPage() {
   const [loading, setLoading] = useState(true);
@@ -29,6 +35,8 @@ export function DashboardPage() {
   const [ping, setPing] = useState<GraphPingResponse | null>(null);
   const [summary, setSummary] = useState<GraphSummaryResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [lastIngest, setLastIngest] = useState<BatchIngestResponse | null>(null);
+  const [ingesting, setIngesting] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -51,6 +59,53 @@ export function DashboardPage() {
 
   useEffect(() => {
     void load();
+  }, [load]);
+
+  const ingestFromFile = useCallback(
+    async (fileName: string) => {
+      setIngesting(true);
+      try {
+        const payload = await fetchSampleBatchJson(fileName);
+        const result = await ingestGraphBatch(payload);
+        setLastIngest(result);
+        if (result.status === "error") {
+          message.error(result.message ?? "导入失败");
+        } else if (result.errors?.length) {
+          message.warning(`已导入（部分告警）节点 ${result.nodesImported ?? 0} / 边 ${result.relationshipsImported ?? 0}`);
+        } else {
+          message.success(
+            `导入完成：节点 ${result.nodesImported ?? 0}，关系 ${result.relationshipsImported ?? 0}`
+          );
+        }
+        await load();
+      } catch (caught) {
+        message.error(caught instanceof Error ? caught.message : String(caught));
+      } finally {
+        setIngesting(false);
+      }
+    },
+    [load]
+  );
+
+  const ingestFullSample = useCallback(async () => {
+    setIngesting(true);
+    try {
+      for (const meta of SAMPLE_FILES) {
+        const payload = await fetchSampleBatchJson(meta.fileName);
+        const result = await ingestGraphBatch(payload);
+        setLastIngest(result);
+        if (result.status === "error") {
+          message.error(`${meta.title} 失败: ${result.message}`);
+          return;
+        }
+      }
+      message.success("已按顺序导入示例批次（一 → 二）");
+      await load();
+    } catch (caught) {
+      message.error(caught instanceof Error ? caught.message : String(caught));
+    } finally {
+      setIngesting(false);
+    }
   }, [load]);
 
   const neo4jOk = ping?.neo4j === "reachable" && ping.ok === 1;
@@ -83,6 +138,57 @@ export function DashboardPage() {
       ) : null}
 
       <Spin spinning={loading}>
+        <Alert
+          type="info"
+          showIcon
+          style={{ marginBottom: 16 }}
+          message="示例数据"
+          description="与 data/samples 下 JSON 一致；「一键导入」按顺序执行批次一、批次二。需 Neo4j 已启动且后端可写库。"
+        />
+
+        <Card title="示例数据导入（本地开发）" style={{ marginBottom: 16 }}>
+          <Space wrap>
+            {SAMPLE_FILES.map((meta) => (
+              <Button
+                key={meta.key}
+                loading={ingesting}
+                onClick={() => void ingestFromFile(meta.fileName)}
+              >
+                {meta.title}
+              </Button>
+            ))}
+            <Button type="primary" loading={ingesting} onClick={() => void ingestFullSample()}>
+              一键导入全部示例
+            </Button>
+          </Space>
+          <Divider style={{ margin: "12px 0" }} />
+          <Typography.Paragraph type="secondary" style={{ marginBottom: 8 }}>
+            {SAMPLE_FILES.map((m) => (
+              <span key={m.key} style={{ display: "block" }}>
+                · {m.description}
+              </span>
+            ))}
+          </Typography.Paragraph>
+          {lastIngest ? (
+            <Descriptions bordered size="small" column={1}>
+              <Descriptions.Item label="last status">{lastIngest.status}</Descriptions.Item>
+              <Descriptions.Item label="nodesImported">
+                {lastIngest.nodesImported ?? "—"}
+              </Descriptions.Item>
+              <Descriptions.Item label="relationshipsImported">
+                {lastIngest.relationshipsImported ?? "—"}
+              </Descriptions.Item>
+              <Descriptions.Item label="errors">
+                <pre style={{ margin: 0, whiteSpace: "pre-wrap", fontSize: 12 }}>
+                  {lastIngest.errors?.length
+                    ? lastIngest.errors.join("\n")
+                    : "—"}
+                </pre>
+              </Descriptions.Item>
+            </Descriptions>
+          ) : null}
+        </Card>
+
         <Row gutter={[16, 16]}>
           <Col xs={24} md={8}>
             <Card title="API">

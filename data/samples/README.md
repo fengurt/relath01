@@ -14,3 +14,5 @@
 | `relationships[].properties` | 边上必存关系级主键/业务键，与 `03_relationship_uniqueness.cypher` 设计一致 |
 
 **主键字段**（与约束一致）: `consumerId`, `merchantId`, `employeeId`, `partnerId`, `orderId`, `settleId`.
+
+**与 GUI 同步**：同名文件会复制到 `web/public/samples/`，供前端静态拉取并 `POST /api/v1/public/graph/batch-ingest`；源文件以本目录为准，更新样例时请同时更新 `web/public/samples/`（或构建时复制）。

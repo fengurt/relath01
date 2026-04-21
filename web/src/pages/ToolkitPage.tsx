@@ -21,6 +21,7 @@ import {
   fetchOrderSnapshot,
 } from "../api/publicApi";
 import { IntroPathGraphView } from "../components/IntroPathGraphView";
+import { SAMPLE_REF } from "../config/sampleRefs";
 
 export function ToolkitPage() {
   const [orderLoading, setOrderLoading] = useState(false);
@@ -103,13 +104,24 @@ export function ToolkitPage() {
         关系工具
       </Typography.Title>
       <Typography.Paragraph type="secondary">
-        对接后端公开图接口（开发态）。生产环境将改为鉴权接口与租户隔离。
+        对接后端公开图接口（开发态）。导入「示例数据」后可使用下列默认 ID。
+      </Typography.Paragraph>
+
+      <Typography.Paragraph style={{ marginTop: -8 }}>
+        <Typography.Text type="secondary">
+          样例：<Typography.Text code>{SAMPLE_REF.orderId}</Typography.Text> · 消费者链路{" "}
+          <Typography.Text code>{SAMPLE_REF.consumerIdForIntroPath}</Typography.Text>
+        </Typography.Text>
       </Typography.Paragraph>
 
       <Row gutter={[16, 16]}>
         <Col xs={24} lg={10}>
           <Card title="订单快照">
-            <Form layout="vertical" onFinish={onOrderLookup}>
+            <Form
+              layout="vertical"
+              initialValues={{ orderId: SAMPLE_REF.orderId }}
+              onFinish={onOrderLookup}
+            >
               <Form.Item
                 name="orderId"
                 label="orderId"
@@ -135,7 +147,15 @@ export function ToolkitPage() {
 
         <Col xs={24} lg={14}>
           <Card title="介绍人链路（INTRODUCE）">
-            <Form layout="vertical" onFinish={onPathLookup}>
+            <Form
+              layout="vertical"
+              initialValues={{
+                consumerId: SAMPLE_REF.consumerIdForIntroPath,
+                maxDepth: 5,
+                limit: 50,
+              }}
+              onFinish={onPathLookup}
+            >
               <Form.Item
                 name="consumerId"
                 label="consumerId"

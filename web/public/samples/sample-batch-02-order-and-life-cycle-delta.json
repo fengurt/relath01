@@ -1,0 +1,147 @@
+{
+  "schemaVersion": "1.0",
+  "batchId": "batch-002-delta-orders-consumer-state",
+  "description": "同一批次内多条更新：订单分润状态、消费者生命周期与统计；新增一单；补充一条 EMPLOY/BELONG_TO（数据修正类）",
+  "dependsOnBatchIds": ["batch-001-venue-karaoke-demo"],
+  "createdAt": "2026-04-21T09:00:00Z",
+  "nodes": {
+    "Consumer": [
+      {
+        "consumerId": "C-GUEST-50003",
+        "lifecycleState": "RETURNING",
+        "periodStats": {
+          "rolling30dSpendCents": 88000,
+          "rolling30dVisits": 2,
+          "lastVisitAt": "2026-04-21T19:00:00Z"
+        },
+        "updatedAt": "2026-04-21T09:00:00Z"
+      },
+      {
+        "consumerId": "C-GUEST-50002",
+        "lifecycleState": "GOLD",
+        "periodStats": {
+          "rolling30dSpendCents": 46000,
+          "rolling30dVisits": 1,
+          "lastVisitAt": "2026-04-19T20:15:00Z"
+        },
+        "updatedAt": "2026-04-21T09:00:00Z"
+      }
+    ],
+    "Order": [
+      {
+        "orderId": "ORD-20260418-001",
+        "profitShareStatus": "SETTLED",
+        "updatedAt": "2026-04-21T09:00:00Z"
+      },
+      {
+        "orderId": "ORD-20260421-003",
+        "merchantId": "M-VENUE-001",
+        "consumerId": "C-GUEST-50003",
+        "distributableAmount": 320,
+        "payStatus": "PAID",
+        "profitShareStatus": "PENDING_PREVIEW",
+        "consumedAt": "2026-04-21T19:05:00Z",
+        "lineItems": [
+          {
+            "sku": "DRINK-PACK",
+            "qty": 1,
+            "lineTotal": 320
+          }
+        ],
+        "createdAt": "2026-04-21T19:06:00Z",
+        "updatedAt": "2026-04-21T19:06:00Z"
+      }
+    ],
+    "Settle": [
+      {
+        "settleId": "STL-M-VENUE-001-202604",
+        "settleStatus": "READY_FOR_PAYOUT",
+        "amountBreakdown": {
+          "grossCents": 146100000,
+          "platformFeeCents": 4383000,
+          "netToAllocateCents": 141717000
+        },
+        "updatedAt": "2026-04-21T09:00:00Z"
+      }
+    ],
+    "Employee": [
+      {
+        "employeeId": "E-SALES-101",
+        "commissionProfile": {
+          "personalRate": 0.009,
+          "teamPoolWeight": 0.16
+        },
+        "updatedAt": "2026-04-21T09:00:00Z"
+      }
+    ]
+  },
+  "relationships": [
+    {
+      "type": "CONSUME",
+      "source": {
+        "label": "Consumer",
+        "key": "consumerId",
+        "value": "C-GUEST-50003"
+      },
+      "target": {
+        "label": "Order",
+        "key": "orderId",
+        "value": "ORD-20260421-003"
+      },
+      "properties": {
+        "consumerId": "C-GUEST-50003",
+        "orderId": "ORD-20260421-003",
+        "weight": 1,
+        "consumedAt": "2026-04-21T19:05:00Z",
+        "verification": {
+          "verifyMethod": "MINI_PROGRAM",
+          "verified": true
+        }
+      }
+    },
+    {
+      "type": "GENERATE",
+      "source": {
+        "label": "Settle",
+        "key": "settleId",
+        "value": "STL-M-VENUE-001-202604"
+      },
+      "target": {
+        "label": "Order",
+        "key": "orderId",
+        "value": "ORD-20260421-003"
+      },
+      "properties": {
+        "settleId": "STL-M-VENUE-001-202604",
+        "orderId": "ORD-20260421-003",
+        "weight": 320,
+        "allocation": {
+          "intoSettleAmount": 320,
+          "feeAllocatedCents": 9600
+        },
+        "reconcileStatus": "PENDING"
+      }
+    },
+    {
+      "type": "BELONG_TO",
+      "source": {
+        "label": "Consumer",
+        "key": "consumerId",
+        "value": "C-GUEST-50003"
+      },
+      "target": {
+        "label": "Merchant",
+        "key": "merchantId",
+        "value": "M-VENUE-001"
+      },
+      "properties": {
+        "subjectId": "C-GUEST-50003",
+        "targetId": "M-VENUE-001",
+        "bindKind": "CONSUMER_TO_MERCHANT_MEMBERSHIP",
+        "weight": 1,
+        "fallbackRules": {},
+        "kpiWeight": {}
+      }
+    }
+  ]
+}

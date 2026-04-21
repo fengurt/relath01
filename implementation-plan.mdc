@@ -22,7 +22,7 @@ Pending
 
 In progress
 
-Web 管理端已具备概览（健康/Neo4j/图统计）与关系工具（订单快照、介绍人链路与 G6 预览）；H5 与报告模板仍待办。
+Web 管理端：概览含示例 JSON 导入（批次一/二、一键导入）、工具页默认样例 ID；后端 `batch-ingest` 写入 Neo4j。H5 与报告模板仍待办。
 
 ## Step 5 — Multimodal ingest & Skills
 

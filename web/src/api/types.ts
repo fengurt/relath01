@@ -42,3 +42,11 @@ export type IntroPathsResponse = {
   paths?: IntroPathRow[];
   message?: string;
 };
+
+export type BatchIngestResponse = {
+  status?: string;
+  nodesImported?: number;
+  relationshipsImported?: number;
+  message?: string;
+  errors?: string[];
+};
