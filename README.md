@@ -10,6 +10,7 @@ Monorepo scaffold aligned with `cursor_project_rules` and `implementation-plan.m
 - `h5` — React 18 + react-vant + Vite (ECharts graph next)
 - `mcp-server` — MCP stdio: `relath_health`, `relath_graph_summary` (HTTP to backend)
 - `docker-compose.yml` — Neo4j, MySQL, Redis, backend
+- `data/samples/` — 图数据 **JSON 批次样例**（多实体 + 多边，用于导入/MERGE 设计对齐）
 
 ## Local prerequisites
 

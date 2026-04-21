@@ -1,0 +1,523 @@
+{
+  "schemaVersion": "1.0",
+  "batchId": "batch-001-venue-karaoke-demo",
+  "description": "单门店：商户、雇佣、合伙人合作、消费者归属、多级介绍、订单消费、结算生成（含预留投资边）",
+  "createdAt": "2026-04-20T08:00:00Z",
+  "nodes": {
+    "Merchant": [
+      {
+        "merchantId": "M-VENUE-001",
+        "name": "示例娱乐门店·南山店",
+        "settlementCycle": "NATURAL_MONTH",
+        "commissionRules": {
+          "scheme": "tiered_introduce",
+          "baseRate": 0.03,
+          "tierThresholdCents": 500000,
+          "tierBump": 0.005
+        },
+        "taxRules": {
+          "vatRate": 0.06,
+          "withholdingPolicy": "CN_INDIVIDUAL_SERVICE"
+        },
+        "operatingStatus": "ACTIVE",
+        "compliance": {
+          "licenseNo": "91440300MA5XXXXXXX",
+          "licenseValidTo": "2027-12-31"
+        },
+        "createdAt": "2026-01-01T00:00:00Z",
+        "updatedAt": "2026-04-01T00:00:00Z"
+      }
+    ],
+    "Employee": [
+      {
+        "employeeId": "E-SALES-101",
+        "merchantId": "M-VENUE-001",
+        "title": "店长",
+        "level": "L3",
+        "commissionProfile": {
+          "personalRate": 0.008,
+          "teamPoolWeight": 0.15
+        },
+        "settlementProfile": {
+          "cycle": "MONTHLY",
+          "payChannel": "BANK"
+        },
+        "employmentStatus": "ACTIVE",
+        "profile": {
+          "displayName": "王销售",
+          "idCardMask": "440***********1234"
+        },
+        "createdAt": "2026-01-05T00:00:00Z",
+        "updatedAt": "2026-04-01T00:00:00Z"
+      },
+      {
+        "employeeId": "E-SALES-102",
+        "merchantId": "M-VENUE-001",
+        "title": "资深销售",
+        "level": "L2",
+        "commissionProfile": {
+          "personalRate": 0.006,
+          "teamPoolWeight": 0.1
+        },
+        "settlementProfile": {
+          "cycle": "MONTHLY",
+          "payChannel": "BANK"
+        },
+        "employmentStatus": "ACTIVE",
+        "profile": {
+          "displayName": "李一线",
+          "idCardMask": "440***********5678"
+        },
+        "createdAt": "2026-02-01T00:00:00Z",
+        "updatedAt": "2026-04-01T00:00:00Z"
+      }
+    ],
+    "Partner": [
+      {
+        "partnerId": "P-CHANNEL-2001",
+        "partnerKind": "CHANNEL",
+        "merchantScope": ["M-VENUE-001"],
+        "commissionProfile": {
+          "baseCoopRate": 0.012,
+          "performanceFloorCents": 100000
+        },
+        "settlementProfile": {
+          "invoiceType": "SERVICE",
+          "taxBearer": "PARTNER"
+        },
+        "validFrom": "2026-01-01",
+        "validTo": "2026-12-31",
+        "profile": {
+          "orgName": "某某渠道工作室",
+          "contactPhoneMask": "137****9090"
+        },
+        "createdAt": "2026-01-02T00:00:00Z",
+        "updatedAt": "2026-04-01T00:00:00Z"
+      },
+      {
+        "partnerId": "P-INTRO-3001",
+        "partnerKind": "INTRODUCER",
+        "merchantScope": ["M-VENUE-001"],
+        "commissionProfile": {
+          "introduceTierRates": [0.02, 0.01, 0.005]
+        },
+        "settlementProfile": {
+          "cycle": "MONTHLY",
+          "minPayAmountCents": 10000
+        },
+        "validFrom": "2026-01-01",
+        "validTo": "2027-01-01",
+        "profile": {
+          "displayName": "周介绍"
+        },
+        "createdAt": "2026-01-03T00:00:00Z",
+        "updatedAt": "2026-04-01T00:00:00Z"
+      },
+      {
+        "partnerId": "P-INVEST-4001",
+        "partnerKind": "INVESTOR",
+        "merchantScope": ["M-VENUE-001"],
+        "commissionProfile": {},
+        "settlementProfile": {
+          "dividendCycle": "QUARTERLY"
+        },
+        "validFrom": "2025-06-01",
+        "validTo": "2030-12-31",
+        "profile": {
+          "displayName": "投资机构占位"
+        },
+        "createdAt": "2025-06-01T00:00:00Z",
+        "updatedAt": "2026-04-01T00:00:00Z"
+      }
+    ],
+    "Consumer": [
+      {
+        "consumerId": "C-GUEST-50001",
+        "boundMerchantId": "M-VENUE-001",
+        "boundEmployeeId": "E-SALES-102",
+        "lifecycleState": "GOLD",
+        "memberNo": "M-88991",
+        "periodStats": {
+          "rolling30dSpendCents": 128000,
+          "rolling30dVisits": 4,
+          "lastVisitAt": "2026-04-15T21:30:00Z"
+        },
+        "profile": {
+          "nickname": "老客A"
+        },
+        "createdAt": "2026-03-01T00:00:00Z",
+        "updatedAt": "2026-04-18T00:00:00Z"
+      },
+      {
+        "consumerId": "C-GUEST-50002",
+        "boundMerchantId": "M-VENUE-001",
+        "boundEmployeeId": "E-SALES-101",
+        "lifecycleState": "NEW",
+        "memberNo": "M-90012",
+        "periodStats": {
+          "rolling30dSpendCents": 0,
+          "rolling30dVisits": 0
+        },
+        "profile": {
+          "nickname": "新客B"
+        },
+        "createdAt": "2026-04-10T00:00:00Z",
+        "updatedAt": "2026-04-10T00:00:00Z"
+      },
+      {
+        "consumerId": "C-GUEST-50003",
+        "boundMerchantId": "M-VENUE-001",
+        "boundEmployeeId": "E-SALES-102",
+        "lifecycleState": "DORMANT",
+        "memberNo": "M-77110",
+        "periodStats": {
+          "rolling30dSpendCents": 12000,
+          "rolling30dVisits": 1
+        },
+        "profile": {
+          "nickname": "沉睡C"
+        },
+        "createdAt": "2025-08-01T00:00:00Z",
+        "updatedAt": "2026-02-01T00:00:00Z"
+      }
+    ],
+    "Order": [
+      {
+        "orderId": "ORD-20260418-001",
+        "merchantId": "M-VENUE-001",
+        "consumerId": "C-GUEST-50001",
+        "distributableAmount": 980.5,
+        "payStatus": "PAID",
+        "profitShareStatus": "PENDING_PREVIEW",
+        "consumedAt": "2026-04-18T22:05:00Z",
+        "lineItems": [
+          {
+            "sku": "ROOM-M",
+            "qty": 1,
+            "lineTotal": 980.5
+          }
+        ],
+        "createdAt": "2026-04-18T22:06:00Z",
+        "updatedAt": "2026-04-18T22:06:00Z"
+      },
+      {
+        "orderId": "ORD-20260419-002",
+        "merchantId": "M-VENUE-001",
+        "consumerId": "C-GUEST-50002",
+        "distributableAmount": 460,
+        "payStatus": "PAID",
+        "profitShareStatus": "SETTLED",
+        "consumedAt": "2026-04-19T20:15:00Z",
+        "lineItems": [
+          {
+            "sku": "ROOM-S",
+            "qty": 1,
+            "lineTotal": 460
+          }
+        ],
+        "createdAt": "2026-04-19T20:16:00Z",
+        "updatedAt": "2026-04-19T20:16:00Z"
+      }
+    ],
+    "Settle": [
+      {
+        "settleId": "STL-M-VENUE-001-202604",
+        "principalId": "M-VENUE-001",
+        "merchantId": "M-VENUE-001",
+        "settlementCycle": "2026-04",
+        "amountBreakdown": {
+          "grossCents": 144050000,
+          "platformFeeCents": 4321500,
+          "netToAllocateCents": 139728500
+        },
+        "settleStatus": "RECONCILING",
+        "payoutProof": {
+          "batchRef": "PAYOUT-BATCH-8891"
+        },
+        "createdAt": "2026-04-25T10:00:00Z",
+        "updatedAt": "2026-04-25T10:00:00Z"
+      }
+    ]
+  },
+  "relationships": [
+    {
+      "type": "EMPLOY",
+      "source": {
+        "label": "Merchant",
+        "key": "merchantId",
+        "value": "M-VENUE-001"
+      },
+      "target": {
+        "label": "Employee",
+        "key": "employeeId",
+        "value": "E-SALES-101"
+      },
+      "properties": {
+        "merchantId": "M-VENUE-001",
+        "employeeId": "E-SALES-101",
+        "weight": 1,
+        "rank": "MANAGER",
+        "hiredAt": "2026-01-05T00:00:00Z",
+        "payrollRules": {
+          "baseSalaryCents": 800000,
+          "bonusFormula": "REVENUE_SHARE_POOL"
+        },
+        "taxRules": {
+          "individualTaxScheme": "CN_IIT_SERVICE"
+        }
+      }
+    },
+    {
+      "type": "EMPLOY",
+      "source": {
+        "label": "Merchant",
+        "key": "merchantId",
+        "value": "M-VENUE-001"
+      },
+      "target": {
+        "label": "Employee",
+        "key": "employeeId",
+        "value": "E-SALES-102"
+      },
+      "properties": {
+        "merchantId": "M-VENUE-001",
+        "employeeId": "E-SALES-102",
+        "weight": 1,
+        "rank": "STAFF",
+        "hiredAt": "2026-02-01T00:00:00Z",
+        "payrollRules": {
+          "baseSalaryCents": 600000,
+          "bonusFormula": "PERSONAL_COMMISSION"
+        },
+        "taxRules": {
+          "individualTaxScheme": "CN_IIT_SERVICE"
+        }
+      }
+    },
+    {
+      "type": "COOPERATE",
+      "source": {
+        "label": "Merchant",
+        "key": "merchantId",
+        "value": "M-VENUE-001"
+      },
+      "target": {
+        "label": "Partner",
+        "key": "partnerId",
+        "value": "P-CHANNEL-2001"
+      },
+      "properties": {
+        "merchantId": "M-VENUE-001",
+        "partnerId": "P-CHANNEL-2001",
+        "weight": 0.012,
+        "coopKind": "CHANNEL",
+        "validFrom": "2026-01-01",
+        "validTo": "2026-12-31",
+        "tierRules": {
+          "thresholdCents": 500000,
+          "extraRate": 0.003
+        }
+      }
+    },
+    {
+      "type": "INTRODUCE",
+      "source": {
+        "label": "Partner",
+        "key": "partnerId",
+        "value": "P-INTRO-3001"
+      },
+      "target": {
+        "label": "Consumer",
+        "key": "consumerId",
+        "value": "C-GUEST-50001"
+      },
+      "properties": {
+        "introducerId": "P-INTRO-3001",
+        "introducedId": "C-GUEST-50001",
+        "weight": 0.02,
+        "tierRules": {
+          "tiers": [0.02, 0.01, 0.005]
+        },
+        "userStateRates": {
+          "NEW": 0.025,
+          "GOLD": 0.02,
+          "DORMANT": 0.015
+        },
+        "rewardRules": {
+          "firstOrderBonusCents": 5000
+        },
+        "validFrom": "2026-03-01",
+        "validTo": "2027-03-01"
+      }
+    },
+    {
+      "type": "BELONG_TO",
+      "source": {
+        "label": "Consumer",
+        "key": "consumerId",
+        "value": "C-GUEST-50001"
+      },
+      "target": {
+        "label": "Employee",
+        "key": "employeeId",
+        "value": "E-SALES-102"
+      },
+      "properties": {
+        "subjectId": "C-GUEST-50001",
+        "targetId": "E-SALES-102",
+        "bindKind": "CONSUMER_TO_SALES",
+        "weight": 1,
+        "fallbackRules": {
+          "onSalesLeave": "MERCHANT_POOL"
+        },
+        "kpiWeight": {
+          "attribution": 1
+        }
+      }
+    },
+    {
+      "type": "BELONG_TO",
+      "source": {
+        "label": "Consumer",
+        "key": "consumerId",
+        "value": "C-GUEST-50002"
+      },
+      "target": {
+        "label": "Employee",
+        "key": "employeeId",
+        "value": "E-SALES-101"
+      },
+      "properties": {
+        "subjectId": "C-GUEST-50002",
+        "targetId": "E-SALES-101",
+        "bindKind": "CONSUMER_TO_SALES",
+        "weight": 1,
+        "fallbackRules": {},
+        "kpiWeight": {
+          "attribution": 1
+        }
+      }
+    },
+    {
+      "type": "BELONG_TO",
+      "source": {
+        "label": "Partner",
+        "key": "partnerId",
+        "value": "P-CHANNEL-2001"
+      },
+      "target": {
+        "label": "Merchant",
+        "key": "merchantId",
+        "value": "M-VENUE-001"
+      },
+      "properties": {
+        "subjectId": "P-CHANNEL-2001",
+        "targetId": "M-VENUE-001",
+        "bindKind": "PARTNER_TO_MERCHANT",
+        "weight": 1,
+        "fallbackRules": {},
+        "kpiWeight": {}
+      }
+    },
+    {
+      "type": "CONSUME",
+      "source": {
+        "label": "Consumer",
+        "key": "consumerId",
+        "value": "C-GUEST-50001"
+      },
+      "target": {
+        "label": "Order",
+        "key": "orderId",
+        "value": "ORD-20260418-001"
+      },
+      "properties": {
+        "consumerId": "C-GUEST-50001",
+        "orderId": "ORD-20260418-001",
+        "weight": 1,
+        "consumedAt": "2026-04-18T22:05:00Z",
+        "verification": {
+          "verifyMethod": "POS_CHECKOUT",
+          "verified": true
+        }
+      }
+    },
+    {
+      "type": "CONSUME",
+      "source": {
+        "label": "Consumer",
+        "key": "consumerId",
+        "value": "C-GUEST-50002"
+      },
+      "target": {
+        "label": "Order",
+        "key": "orderId",
+        "value": "ORD-20260419-002"
+      },
+      "properties": {
+        "consumerId": "C-GUEST-50002",
+        "orderId": "ORD-20260419-002",
+        "weight": 1,
+        "consumedAt": "2026-04-19T20:15:00Z",
+        "verification": {
+          "verifyMethod": "POS_CHECKOUT",
+          "verified": true
+        }
+      }
+    },
+    {
+      "type": "GENERATE",
+      "source": {
+        "label": "Settle",
+        "key": "settleId",
+        "value": "STL-M-VENUE-001-202604"
+      },
+      "target": {
+        "label": "Order",
+        "key": "orderId",
+        "value": "ORD-20260419-002"
+      },
+      "properties": {
+        "settleId": "STL-M-VENUE-001-202604",
+        "orderId": "ORD-20260419-002",
+        "weight": 460,
+        "allocation": {
+          "intoSettleAmount": 460,
+          "feeAllocatedCents": 13800
+        },
+        "reconcileStatus": "MATCHED"
+      }
+    },
+    {
+      "type": "INVEST",
+      "source": {
+        "label": "Partner",
+        "key": "partnerId",
+        "value": "P-INVEST-4001"
+      },
+      "target": {
+        "label": "Merchant",
+        "key": "merchantId",
+        "value": "M-VENUE-001"
+      },
+      "properties": {
+        "investorId": "P-INVEST-4001",
+        "investeeId": "M-VENUE-001",
+        "weight": 0.12,
+        "investedAmount": 5000000,
+        "period": {
+          "start": "2025-06-01",
+          "end": "2030-12-31"
+        },
+        "dividendRules": {
+          "schedule": "QUARTERLY",
+          "waterfall": "AFTER_OPERATING_COST"
+        },
+        "exitRules": {
+          "liquidityWindowMonths": 6,
+          "tagAlong": true
+        }
+      }
+    }
+  ]
+}
