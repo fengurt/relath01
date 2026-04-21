@@ -71,7 +71,7 @@ Check the API directly: [http://127.0.0.1:8080/api/v1/public/health](http://127.
 cd web && npm install && npm run dev
 ```
 
-Open [http://127.0.0.1:5173](http://127.0.0.1:5173) — `/api` is proxied to the backend.
+Open [http://127.0.0.1:5173](http://127.0.0.1:5173) — `/api` is proxied to the backend. Routes: **`/dashboard`** (概览), **`/tools`** (关系工具 + G6 链路预览).
 
 **3 — H5 mobile shell (optional, port 5174)**
 

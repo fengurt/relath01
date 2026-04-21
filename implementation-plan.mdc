@@ -20,7 +20,9 @@ Pending
 
 ## Step 4 — Web/H5 visualization & reports
 
-Pending
+In progress
+
+Web 管理端已具备概览（健康/Neo4j/图统计）与关系工具（订单快照、介绍人链路与 G6 预览）；H5 与报告模板仍待办。
 
 ## Step 5 — Multimodal ingest & Skills
 

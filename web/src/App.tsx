@@ -1,17 +1,17 @@
-import { Layout, Typography } from "antd";
-
-const { Header, Content } = Layout;
+import { Navigate, Route, Routes } from "react-router-dom";
+import { AppShell } from "./components/AppShell";
+import { DashboardPage } from "./pages/DashboardPage";
+import { ToolkitPage } from "./pages/ToolkitPage";
 
 export function App() {
   return (
-    <Layout style={{ minHeight: "100vh" }}>
-      <Header style={{ color: "#fff" }}>relath 管理端</Header>
-      <Content style={{ padding: 24 }}>
-        <Typography.Title level={3}>图可视化占位</Typography.Title>
-        <Typography.Paragraph>
-          后续接入 AntV G6 WebGL 与业务接口。
-        </Typography.Paragraph>
-      </Content>
-    </Layout>
+    <Routes>
+      <Route element={<AppShell />}>
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/tools" element={<ToolkitPage />} />
+      </Route>
+      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+    </Routes>
   );
 }
