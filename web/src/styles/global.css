@@ -1,0 +1,1070 @@
+/* Relath web — Art Deco UI (design.md): obsidian + champagne + metallic gold */
+
+:root {
+  --relath-page-max: min(100%, 1680px);
+  --relath-ink: #f2f0e4;
+  --relath-muted: #888888;
+  --relath-surface: #141414;
+  --relath-surface-low: #0f0f0f;
+  --relath-surface-container: #141414;
+  --relath-surface-container-high: #1a1a1a;
+  --relath-surface-lowest: #050505;
+  --relath-outline-ghost: rgba(212, 175, 55, 0.18);
+  --relath-primary: #d4af37;
+  --relath-primary-container: #a67c00;
+  --relath-primary-light: #f2e8c4;
+  --relath-secondary: #1e3d59;
+  --relath-canvas: #0a0a0a;
+  --relath-mono: "Roboto Mono", ui-monospace, monospace;
+  --relath-display: "Marcellus", "Times New Roman", Georgia, serif;
+  --relath-body: "Josefin Sans", ui-sans-serif, system-ui, sans-serif;
+  --relath-elevated:
+    0 0 32px rgba(212, 175, 55, 0.12),
+    0 16px 48px rgba(0, 0, 0, 0.55);
+  --relath-sidebar-from: #0a0a0a;
+  --relath-sidebar-to: #141414;
+  --relath-primary-soft: rgba(212, 175, 55, 0.12);
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: var(--relath-body);
+  color: var(--relath-ink);
+  background: var(--relath-canvas);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Crosshatch + subtle sunburst — design.md §4 */
+.relath-app-shell.ant-layout {
+  position: relative;
+  min-height: 100vh;
+}
+
+.relath-app-shell.ant-layout::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.045;
+  background-image:
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 10px,
+      rgba(212, 175, 55, 0.9) 10px,
+      rgba(212, 175, 55, 0.9) 11px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(212, 175, 55, 0.55) 10px,
+      rgba(212, 175, 55, 0.55) 11px
+    ),
+    radial-gradient(ellipse 80% 55% at 50% -10%, rgba(212, 175, 55, 0.12), transparent 52%);
+}
+
+.relath-app-shell.ant-layout > * {
+  position: relative;
+  z-index: 1;
+}
+
+.relath-app-shell .ant-layout-content {
+  background: var(--relath-canvas);
+  min-height: calc(100vh - 64px);
+}
+
+.relath-sider-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 16px 18px;
+  border-bottom: 1px solid rgba(242, 240, 228, 0.08);
+  min-width: 0;
+}
+
+.relath-sider-brand-text {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Collapsed rail (~80px): hide titles; keep mark centered — Ant adds .ant-layout-sider-collapsed on Sider */
+.relath-app-shell .ant-layout-sider-collapsed .relath-sider-brand {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  padding: 14px 10px 12px;
+}
+
+.relath-app-shell .ant-layout-sider-collapsed .relath-sider-brand-text {
+  display: none;
+}
+
+.relath-app-shell .ant-layout-sider-collapsed .relath-sider-mark {
+  flex-shrink: 0;
+}
+
+.relath-sider-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 2px;
+  background: linear-gradient(135deg, #f2e8c4 0%, #d4af37 55%, #a67c00 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #0a0a0a;
+  box-shadow: 0 0 24px rgba(212, 175, 55, 0.35);
+}
+
+.relath-sider-title {
+  color: #dae2fd;
+  font-weight: 650;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.relath-sider-sub {
+  color: rgba(242, 240, 228, 0.52);
+  font-size: 12px;
+  margin-top: 2px;
+  font-weight: 450;
+}
+
+/* Sidebar shell — brand fixed, menu scrolls above collapse trigger */
+.relath-app-shell .ant-layout-sider {
+  border-inline-end: 1px solid rgba(242, 240, 228, 0.06);
+}
+
+.relath-sider-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.relath-sider-nav {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 6px 0 12px;
+}
+
+.relath-sider-nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.relath-sider-nav::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.18);
+  border-radius: 99px;
+}
+
+.relath-sider-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Primary rail menu — spacing, selection rail, submenu well */
+.relath-app-shell .relath-sider-menu.ant-menu.ant-menu-root.ant-menu-inline {
+  padding: 6px 10px 12px;
+  border-inline-end: none !important;
+}
+
+.relath-app-shell .relath-sider-menu .ant-menu-item,
+.relath-app-shell .relath-sider-menu .ant-menu-submenu-title {
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.relath-app-shell .relath-sider-menu .ant-menu-item-icon,
+.relath-app-shell .relath-sider-menu .ant-menu-submenu-title .ant-menu-item-icon {
+  opacity: 0.82;
+}
+
+.relath-app-shell .relath-sider-menu .ant-menu-item-selected .ant-menu-item-icon,
+.relath-app-shell .relath-sider-menu .ant-menu-submenu-selected .ant-menu-submenu-title .ant-menu-item-icon {
+  opacity: 1;
+  color: var(--relath-primary);
+}
+
+.relath-app-shell .relath-sider-menu .ant-menu-submenu-selected > .ant-menu-submenu-title {
+  color: rgba(242, 240, 228, 0.92);
+}
+
+.relath-app-shell .relath-sider-menu:not(.ant-menu-inline-collapsed) .ant-menu-item-selected {
+  box-shadow: inset 3px 0 0 0 rgba(212, 175, 55, 0.85);
+}
+
+.relath-app-shell .relath-sider-menu .ant-menu-sub.ant-menu-inline {
+  margin-top: 4px;
+  margin-bottom: 6px;
+  padding: 8px 6px 10px;
+  border-radius: 2px;
+  background: rgba(30, 61, 89, 0.35);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.relath-app-shell .relath-sider-menu .ant-menu-sub .ant-menu-item {
+  margin-inline: 0 !important;
+  padding-inline-start: 14px !important;
+}
+
+.relath-app-shell .relath-sider-menu .ant-menu-sub .ant-menu-item-only-child .ant-menu-item-icon {
+  font-size: 14px;
+  opacity: 0.72;
+}
+
+.relath-app-shell .relath-sider-menu .ant-menu-sub .ant-menu-item-selected .ant-menu-item-icon {
+  opacity: 1;
+  color: var(--relath-primary);
+}
+
+.relath-sider-menu-leaf-icon {
+  font-size: 14px !important;
+}
+
+/* Collapse control at sider foot */
+.relath-app-shell .ant-layout-sider-trigger {
+  background: rgba(26, 26, 26, 0.75) !important;
+  color: rgba(192, 199, 214, 0.75) !important;
+  border-top: 1px solid rgba(242, 240, 228, 0.08) !important;
+  line-height: 48px;
+  height: 48px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.relath-app-shell .ant-layout-sider-trigger:hover {
+  color: var(--relath-ink) !important;
+  background: rgba(212, 175, 55, 0.1) !important;
+}
+
+/* Collapsed rail: icon-only top-level + flyout */
+.relath-app-shell .ant-layout-sider-collapsed .relath-sider-menu.ant-menu-inline-collapsed {
+  padding-inline: 8px;
+}
+
+.relath-app-shell .ant-layout-sider-collapsed .relath-sider-menu .ant-menu-item-icon {
+  line-height: 1;
+}
+
+.relath-app-shell .ant-menu-dark.ant-menu-submenu-popup {
+  border-radius: 2px !important;
+  overflow: hidden;
+  box-shadow:
+    0 24px 48px rgba(0, 12, 36, 0.45),
+    0 0 0 1px rgba(212, 175, 55, 0.1);
+}
+
+.relath-app-shell .ant-menu-submenu-popup .ant-menu.ant-menu-sub,
+.relath-app-shell .relath-sider-submenu-flyout .ant-menu.ant-menu-sub {
+  min-width: 196px;
+  padding: 8px;
+  border-radius: 2px;
+  background: var(--relath-surface-container-high) !important;
+}
+
+.relath-app-shell .ant-menu-submenu-popup .ant-menu-item {
+  border-radius: 2px !important;
+  margin-block: 3px !important;
+}
+
+.relath-page-shell {
+  width: 100%;
+  max-width: var(--relath-page-max);
+  margin: 0 auto;
+}
+
+.relath-page-shell__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.relath-page-shell__title.ant-typography {
+  margin: 0 !important;
+  color: var(--relath-ink);
+  font-family: var(--relath-display);
+  font-weight: 500 !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.relath-page-shell__title--hero.ant-typography {
+  font-weight: 400 !important;
+  letter-spacing: 0.14em !important;
+  line-height: 1.15 !important;
+  color: var(--relath-primary-light);
+}
+
+.relath-page-shell__eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: rgba(212, 175, 55, 0.72);
+  margin-bottom: 8px;
+}
+
+.relath-page-shell__meta {
+  margin-top: 8px !important;
+  font-size: 12px !important;
+  letter-spacing: 0.08em;
+  color: rgba(136, 136, 136, 0.92) !important;
+}
+
+.relath-page-shell__desc {
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+}
+
+.relath-page-shell__extra {
+  flex-shrink: 0;
+}
+
+.relath-page-shell__body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.relath-page-shell--hero .relath-page-shell__header {
+  margin-bottom: 28px;
+}
+
+/* Tonal surfaces — ghost borders only (DESIGN.md); no heavy strokes */
+.relath-tonal-low {
+  background: var(--relath-surface-low);
+}
+
+.relath-tonal-mid {
+  background: var(--relath-surface-container);
+}
+
+.relath-tonal-high {
+  background: var(--relath-surface-container-high);
+}
+
+.relath-glass {
+  background: rgba(26, 26, 26, 0.42);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.relath-gradient-primary-btn.ant-btn-primary {
+  background: linear-gradient(145deg, #f2e8c4 0%, #d4af37 45%, #a67c00 100%) !important;
+  border: 2px solid rgba(212, 175, 55, 0.65) !important;
+  color: #0a0a0a !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-family: var(--relath-body);
+  box-shadow: 0 0 22px rgba(212, 175, 55, 0.38);
+  transition:
+    filter 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.relath-gradient-primary-btn.ant-btn-primary:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 0 28px rgba(212, 175, 55, 0.5);
+  color: #0a0a0a !important;
+}
+
+.relath-panel {
+  border-radius: 2px !important;
+  border: 1px solid var(--relath-outline-ghost) !important;
+  box-shadow: var(--relath-elevated) !important;
+  background: var(--relath-surface-container-high) !important;
+}
+
+.relath-panel .ant-card-head {
+  border-bottom-color: rgba(212, 175, 55, 0.22) !important;
+  font-weight: 600;
+  color: var(--relath-ink);
+}
+
+.relath-panel .ant-card-head-title {
+  color: var(--relath-ink);
+}
+
+.relath-header-bar {
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.22);
+  background: linear-gradient(180deg, rgba(26, 26, 26, 0.98) 0%, rgba(20, 20, 20, 0.94) 100%);
+  box-shadow: 0 1px 0 rgba(212, 175, 55, 0.12);
+}
+
+.relath-mono {
+  font-family: var(--relath-mono);
+}
+
+@media (max-width: 575px) {
+  .relath-page-shell__header {
+    flex-direction: column;
+  }
+  .relath-page-shell__extra {
+    width: 100%;
+  }
+  .relath-page-shell__extra .ant-space,
+  .relath-page-shell__extra .ant-btn {
+    width: 100%;
+  }
+}
+
+/* Dashboard — ref/global_dashboard_pc + DESIGN.md */
+
+/* Plain flex stack — avoids Ant Space shrink-to-fit items so KPI grids measure full column */
+.relath-dash-stack.relath-dash-stack--vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 24px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.relath-dash-stack.relath-dash-stack--vertical > * {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.relath-dash-stack .ant-spin-nested-loading,
+.relath-dash-stack .ant-spin-container {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Single child under Spin so nested-loading measures full content width */
+.relath-dash-spin-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/*
+ * Overview row: flex (not CSS grid). Grid with two tracks reserves ~300px for column 2 even when
+ * the second cell is empty/missing paint — reads as “half screen dead”. Flex lets KPI strip grow.
+ */
+.relath-dash-overview-grid {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: stretch;
+  gap: 18px;
+  width: 100%;
+  min-width: 0;
+}
+
+.relath-dash-overview-grid > .relath-kpi-strip {
+  flex: 1 1 420px;
+  min-width: 0;
+}
+
+.relath-dash-overview-grid > .relath-dash-map-cta {
+  flex: 0 1 300px;
+  min-width: min(100%, 240px);
+}
+
+@media (max-width: 879px) {
+  .relath-dash-overview-grid > .relath-dash-map-cta {
+    flex: 1 1 100%;
+    max-width: none;
+  }
+}
+
+.relath-dash-map-cta {
+  border-radius: 2px;
+  padding: 20px 18px;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  justify-content: center;
+  background: linear-gradient(
+    165deg,
+    rgba(212, 175, 55, 0.09) 0%,
+    rgba(30, 61, 89, 0.45) 42%,
+    rgba(10, 10, 10, 0.92) 100%
+  );
+  box-shadow: var(--relath-elevated);
+}
+
+.relath-dash-map-cta .ant-typography {
+  color: var(--relath-ink);
+}
+
+.relath-dash-map-cta-decoration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0 4px;
+  opacity: 0.85;
+}
+
+.relath-dash-map-cta-decoration span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.relath-kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+}
+
+@media (min-width: 520px) {
+  .relath-kpi-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 960px) {
+  .relath-kpi-strip {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.relath-kpi-tile {
+  border-radius: 2px;
+  padding: 20px 20px 18px;
+  padding-left: 18px;
+  background: var(--relath-surface-low);
+  border: 1px solid var(--relath-outline-ghost);
+  border-left-width: 3px;
+  border-left-color: rgba(212, 175, 55, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition:
+    background 0.22s ease,
+    border-color 0.22s ease;
+  contain: content;
+}
+
+.relath-kpi-tile:hover {
+  background: var(--relath-surface-container);
+}
+
+.relath-kpi-tile--accent-nodes {
+  border-left-color: #d4af37;
+}
+.relath-kpi-tile--accent-api {
+  border-left-color: #f2e8c4;
+}
+.relath-kpi-tile--accent-bolt {
+  border-left-color: #52c41a;
+}
+.relath-kpi-tile--accent-summary {
+  border-left-color: #c9a961;
+}
+
+.relath-kpi-tile__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.relath-kpi-tile__label {
+  font-family: var(--relath-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(192, 199, 214, 0.72);
+  line-height: 1.35;
+}
+
+.relath-kpi-tile__icon {
+  font-size: 20px;
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
+}
+
+.relath-kpi-tile:hover .relath-kpi-tile__icon {
+  opacity: 0.95;
+}
+
+.relath-kpi-tile__value {
+  font-family: var(--relath-mono);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--relath-ink);
+}
+
+.relath-kpi-tile__hint {
+  font-family: var(--relath-mono);
+  font-size: 11px;
+  color: rgba(212, 175, 55, 0.72);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.relath-dash-mcp-strip {
+  align-items: stretch;
+}
+
+.relath-dash-mcp-tile {
+  flex: 1 1 240px;
+  min-width: min(100%, 220px);
+  max-width: 400px;
+  border-radius: 2px !important;
+  background: var(--relath-surface-low) !important;
+  border: 1px solid var(--relath-outline-ghost) !important;
+  box-shadow: none !important;
+  display: flex;
+  flex-direction: column;
+  contain: content;
+}
+
+.relath-dash-mcp-tile .ant-card-body {
+  padding: 16px 16px 14px !important;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.relath-dash-mcp-tile__icon {
+  font-size: 22px;
+  line-height: 1;
+  padding: 10px;
+  border-radius: 2px;
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.relath-dash-mcp-tile__name {
+  font-size: 14px;
+  letter-spacing: -0.02em;
+  color: var(--relath-ink);
+}
+
+.relath-dash-mcp-tile__path {
+  font-family: var(--relath-mono, "Roboto Mono", ui-monospace, monospace);
+  font-size: 11px;
+  color: rgba(192, 199, 214, 0.65);
+  margin-top: 4px;
+  word-break: break-all;
+}
+
+.relath-dash-mcp-tile__metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.relath-dash-bento {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 992px) {
+  .relath-dash-bento {
+    grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+    gap: 18px;
+    align-items: stretch;
+  }
+}
+
+.relath-dash-chart-panel {
+  border-radius: 2px;
+  padding: 22px 22px 18px;
+  background: var(--relath-surface-low);
+  border: 1px solid var(--relath-outline-ghost);
+  position: relative;
+  overflow: hidden;
+}
+
+.relath-dash-chart-panel__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 85% 12%, rgba(212, 175, 55, 0.09), transparent 42%);
+}
+
+.relath-dash-chart-svg {
+  width: 100%;
+  height: 96px;
+  display: block;
+}
+
+.relath-dash-feed {
+  border-radius: 2px;
+  padding: 18px 18px 16px;
+  background: var(--relath-surface-container);
+  border: 1px solid var(--relath-outline-ghost);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 280px;
+}
+
+.relath-dash-feed__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 2px;
+}
+
+.relath-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--relath-primary-container);
+  box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.45);
+  animation: relathPulse 2.2s ease-out infinite;
+}
+
+@keyframes relathPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .relath-pulse-dot {
+    animation: none;
+    box-shadow: none;
+  }
+}
+
+.relath-dash-feed__title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--relath-ink);
+}
+
+.relath-dash-feed-item {
+  padding: 12px 12px;
+  border-radius: 2px;
+  background: var(--relath-surface-container-high);
+  border-left: 2px solid rgba(212, 175, 55, 0.35);
+}
+
+.relath-dash-feed-item--warn {
+  border-left-color: rgba(255, 184, 107, 0.65);
+}
+
+.relath-dash-feed-item__body {
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(242, 240, 228, 0.9);
+}
+
+.relath-dash-feed-item__meta {
+  font-family: var(--relath-mono);
+  font-size: 10px;
+  margin-top: 6px;
+  color: rgba(192, 199, 214, 0.65);
+}
+
+.relath-dash-import-panel {
+  border-radius: 2px !important;
+}
+
+.relath-dash-import-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.relath-dash-import-card {
+  text-align: left;
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 14px 16px;
+  border: 1px solid var(--relath-outline-ghost);
+  background: rgba(15, 15, 15, 0.55);
+  color: var(--relath-ink);
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.relath-dash-import-card:hover:not(:disabled) {
+  border-color: rgba(212, 175, 55, 0.45);
+  background: rgba(212, 175, 55, 0.08);
+  transform: translateY(-1px);
+}
+
+.relath-dash-import-card:focus-visible {
+  outline: 2px solid rgba(212, 175, 55, 0.65);
+  outline-offset: 2px;
+}
+
+.relath-dash-import-card:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.relath-dash-import-card__title {
+  display: block;
+  font-weight: 650;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.relath-dash-import-card__desc {
+  display: block;
+  font-size: 12px;
+  line-height: 1.45;
+  color: rgba(192, 199, 214, 0.78);
+}
+
+.relath-dash-total-tag.ant-tag {
+  margin-inline-start: 8px;
+  font-weight: 600;
+  border-radius: 2px;
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  background: rgba(212, 175, 55, 0.08);
+  color: rgba(242, 240, 228, 0.92);
+}
+
+.relath-dash-entity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px 16px;
+}
+
+.relath-dash-entity-cell {
+  padding: 12px 14px;
+  border-radius: 2px;
+  background: rgba(15, 15, 15, 0.35);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+}
+
+.relath-dash-entity-cell__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  min-width: 0;
+}
+
+.relath-dash-entity-cell__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.relath-dash-entity-cell__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(242, 240, 228, 0.92);
+}
+
+.relath-dash-entity-cell__share {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: rgba(192, 199, 214, 0.72);
+  flex-shrink: 0;
+}
+
+.relath-dash-entity-cell__value {
+  font-size: 18px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--relath-ink);
+  flex-shrink: 0;
+}
+
+.relath-dash-pre-label {
+  font-size: 12px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.relath-dash-pre {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 2px;
+  background: rgba(15, 15, 15, 0.85);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  font-family: var(--relath-mono);
+  font-size: 11px;
+  line-height: 1.45;
+  color: rgba(242, 240, 228, 0.92);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.relath-panel .ant-collapse-header {
+  color: var(--relath-ink) !important;
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .relath-dash-import-card {
+    transition: none;
+  }
+  .relath-dash-import-card:hover:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* Toolkit — graph workspace ref/graph_workspace_elegant */
+
+.relath-graph-workspace {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  min-height: min(calc(100vh - 140px), 900px);
+}
+
+/* Narrow viewports: graph stage must appear FIRST — otherwise users only see the form and think the node map is missing */
+@media (max-width: 767px) {
+  .relath-graph-workspace__stage {
+    order: -1;
+  }
+}
+
+@media (min-width: 768px) {
+  .relath-graph-workspace {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 18px;
+    min-height: calc(100vh - 148px);
+  }
+
+  .relath-graph-workspace__stage {
+    order: unset;
+  }
+}
+
+.relath-graph-workspace__glass {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 420px;
+  padding: 22px 22px 20px;
+  border-radius: 2px;
+  border: 1px solid var(--relath-outline-ghost);
+  background: rgba(26, 26, 26, 0.52);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  box-shadow:
+    0 0 48px -18px rgba(8, 20, 42, 0.65),
+    var(--relath-elevated);
+}
+
+@media (min-width: 768px) {
+  .relath-graph-workspace__glass {
+    align-self: flex-start;
+    position: sticky;
+    top: 72px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+}
+
+.relath-graph-workspace__stage {
+  flex: 1;
+  min-width: 0;
+  min-height: 44vh;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  border-radius: 2px;
+  padding: 16px 14px 18px;
+  background: rgba(14, 14, 14, 0.35);
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  overflow: hidden;
+}
+
+.relath-graph-workspace__ambient {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 72% 18%, rgba(212, 175, 55, 0.09) 0%, transparent 42%),
+    radial-gradient(circle at 22% 78%, rgba(212, 175, 55, 0.06) 0%, transparent 38%);
+}
+
+.relath-graph-workspace__stage-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.relath-graph-map-wrap {
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden;
+  min-height: min(52vh, 560px);
+  background: rgba(15, 15, 15, 0.38);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+}
+
+.relath-graph-map-canvas {
+  width: 100%;
+  min-height: min(52vh, 560px);
+}
+
+.relath-graph-inspector {
+  background: rgba(26, 26, 26, 0.65) !important;
+  border: 1px solid var(--relath-outline-ghost) !important;
+  border-radius: 2px !important;
+}
+
+.relath-graph-map-empty.ant-empty {
+  padding: 48px 24px;
+}
+
+.relath-graph-map-empty .ant-empty-description {
+  color: rgba(192, 199, 214, 0.72) !important;
+  max-width: 280px;
+  margin-inline: auto;
+}
